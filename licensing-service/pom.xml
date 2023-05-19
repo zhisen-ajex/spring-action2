@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zs</groupId>
+        <artifactId>spring-action2</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>licensing-service</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>License Service</name>
+    <description>Ostock Licensing Service</description>
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <!--❹告诉Maven包含Spring Boot Web依赖项-->
+            <artifactId>
+                spring-boot-starter-web
+            </artifactId>
+        </dependency>
+        <!--HATEOAS是Hypermedia as the Engine of Application State的缩写，意思是超媒体即应用状态引擎。
+        Spring HATEOAS是一个小项目，它允许我们创建遵循HATEOAS原则的API，
+        显示给定资源的相关链接。HATEOAS原则指出，API应该通过返回每个服务响应可能的后续步骤的信息来为客户端提供指导-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

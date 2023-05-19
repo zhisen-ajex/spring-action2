@@ -1,0 +1,7 @@
+spring:
+  application:
+#    Config服务器端应用程序的名称（在本例中是config-server）,服务发现命名时会用上,在我们创建的所有服务中是非常重要的
+    name: config-server
+server:
+#  服务器端口
+  port: 8071

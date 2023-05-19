@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: licensing-service
+  profiles:
+#    指定服务应该运行的默认profile。profile映射到某个环境
+    active: dev
+  cloud:
+    config:
+      enabled: true
+      #     指定Spring Cloud Config服务器端的位置
+      uri: http://localhost:8071
+server:
+  port: 8081

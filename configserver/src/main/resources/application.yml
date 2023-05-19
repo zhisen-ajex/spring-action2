@@ -1,0 +1,50 @@
+####################################
+#   This is the core configuration for a configuration service.
+#
+#   There are 2 way to load your configuration:
+#   - The configuration service loads from your local file system.
+#   - The configuration service loads from a git repository. 
+#
+#   You can use either solution.
+####################################
+
+####################################
+# 1st way: load from your local system
+#
+# For search location, you can use absolute path or relative path with classpath
+#####################################
+spring:
+  profiles:
+   active: native
+  cloud:
+    config:
+      server:
+        native:
+#            Use absolute path
+#             searchLocations: file:///Users/wuyichen/Documents/workspace/spring-microservices-in-action/server/config-server/src/resources/config/licensingservice
+#            Use relative path with classpath
+           searchLocations: classpath:config
+        git:
+          search-paths: '{application}'
+          refreshRate: 60
+          ignore-local-ssh-settings: true
+          clone-on-start: true
+          uri: https://github.com/zhisen-ajex/spring-action2.git
+          username: zhisen.li@aj-ex.com
+          password: 19970816@lzs
+          encrypt.enabled: false
+####################################
+# 2nd way: load from a git repository
+####################################
+#server:
+#  port: 8888
+# spring:
+#   cloud:
+#     config:
+#       server:
+#         encrypt.enabled: false
+#         git:
+#           uri: https://github.com/carnellj/config-repo/
+#           searchPaths: licensingservice,organizationservice,specialroutesservice,authenticationservice
+#           username: native-cloud-apps
+#           password: 0ffended
