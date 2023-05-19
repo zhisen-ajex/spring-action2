@@ -9,5 +9,3 @@ spring:
       enabled: true
       #     指定Spring Cloud Config服务器端的位置
       uri: http://localhost:8071
-server:
-  port: 8081

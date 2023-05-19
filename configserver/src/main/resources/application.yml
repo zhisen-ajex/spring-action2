@@ -16,22 +16,30 @@
 spring:
   profiles:
    active:
-     - native
+#     - native
      - git
   cloud:
     config:
       server:
-        native:
-#            Use absolute path
-#             searchLocations: file:///Users/wuyichen/Documents/workspace/spring-microservices-in-action/server/config-server/src/resources/config/licensingservice
-#            Use relative path with classpath
-          searchLocations: classpath:config
+#        native:
+##            Use absolute path
+##             searchLocations: file:///Users/wuyichen/Documents/workspace/spring-microservices-in-action/server/config-server/src/resources/config/licensingservice
+##            Use relative path with classpath
+#          searchLocations: classpath:config
         git:
+          default-label: config
+#          注：config 客户端在没有 spring.cloud.config.name属性的时候，服务端{application} 获取的是客户端
+#          spring.application.name的值，否则，获取的是 spring.cloud.config.name的值。
+#          1）、当没有spring.cloud.config.name时，客户端获取的是spring.application.name 所对应的git库中的文件，并且只能
+#          获取一个文件，
+#          2）、当一个项目中有需求要获取多个文件时，就需要用到spring.cloud.config.name这个属性，以逗号分割
+          #源码位置org.springframework.cloud.config.server.support.AbstractScmAccessor.getSearchLocations
+
           search-paths: '{application}'
           refreshRate: 60
           ignore-local-ssh-settings: true
           clone-on-start: true
-          uri: https://github.com/zhisen-ajex/spring-action2.git/config-centernal
+          uri: https://github.com/zhisen-ajex/spring-action2.git
 ####################################
 # 2nd way: load from a git repository
 ####################################
