@@ -3,10 +3,10 @@ server:
 eureka:
   instance:
     #     设置Eureka实例主机名
-    hostname: localhost    ⇽---
+    hostname: localhost
   client:
     #     告诉Eureka服务器端不要向Eureka服务注册
-    registerWithEureka: false    ⇽---
+    registerWithEureka: false
     #     并且不在本地缓存注册信息
     fetchRegistry: false
     serviceUrl:
