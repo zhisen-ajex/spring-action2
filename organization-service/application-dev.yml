@@ -1,0 +1,13 @@
+eureka:
+  instance:
+#    注册服务的IP，而不是服务器名称
+#     为什么偏向于IP地址在默认情况下，Eureka注册通过主机名联系它的服务。这种方式在基于服务器的环境中运行良好，在这样的环境中，服务会被分配一个DNS支持的主机名。但是，在基于容器的部署（如Docker）中，容器将以随机生成的主机名启动，并且该容器没有DNS条目。如果你没有将eureka.instance. preferIpAddress设置为true，那么你的客户端应用程序将无法正确地解析主机名的位置，因为该容器不存在DNS条目。设置preferIpAddress属性将通知Eureka服务，客户端想要通过IP地址进行通告
+    preferIpAddress: true
+  client:
+#    向Eureka注册服务
+    registerWithEureka: true
+#    拉取注册表的本地副本
+    fetchRegistry: true
+    serviceUrl:
+#      设置Eureka服务的位置
+      defaultZone: http://localhost:8070/eureka/
