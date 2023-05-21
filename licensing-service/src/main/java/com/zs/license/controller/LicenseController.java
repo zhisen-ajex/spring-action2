@@ -28,7 +28,21 @@ public class LicenseController {
     MessageSource messages;
     private static final Logger logger = LoggerFactory.getLogger(LicenseController.class);
 
-
+    /**
+     *  clientType参数确定要使用的Spring REST客户端的类型
+     * @param organizationId
+     * @param licenseId
+     * @param clientType
+     * @return
+     */
+    @RequestMapping(value="/{licenseId}/{clientType}",
+            method = RequestMethod.GET)
+    public License getLicensesWithClient(
+            @PathVariable("organizationId") String organizationId,
+            @PathVariable("licenseId") String licenseId,
+            @PathVariable("clientType") String clientType) {
+        return licenseService.getLicense(organizationId,licenseId, clientType);
+    }
 
     /**
      * Query a license by the organization ID and the license ID.

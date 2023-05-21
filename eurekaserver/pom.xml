@@ -14,6 +14,13 @@
     <properties>
     </properties>
     <dependencies>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <!--❹告诉Maven包含Spring Boot Web依赖项-->
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <!--告诉Maven包含Eureka库-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
