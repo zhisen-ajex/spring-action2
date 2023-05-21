@@ -2,3 +2,7 @@
    port: 8084
  encrypt:
     key: test
+ ## Setting logging levels
+ logging:
+   level:
+     org.hibernate.type.descriptor.sql.BasicBinder: trace

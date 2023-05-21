@@ -41,7 +41,7 @@ public class LicenseController {
             @PathVariable("organizationId") String organizationId,
             @PathVariable("licenseId") String licenseId,
             @PathVariable("clientType") String clientType) {
-        return licenseService.getLicense(organizationId,licenseId, clientType);
+        return licenseService.getLicense(licenseId,organizationId, clientType);
     }
 
     /**

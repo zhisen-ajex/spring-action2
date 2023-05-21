@@ -74,8 +74,7 @@ public class LicenseService {
     }
     public License getLicense(String licenseId, String organizationId, String
             clientType){
-        License license = licenseRepository.findByOrganizationIdAndLicenseId
-                (organizationId, licenseId);
+        License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
         if (null == license) {
             throw new IllegalArgumentException(String.format(
                     messages.getMessage("license.search.error.message", null, null),
