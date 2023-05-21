@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: eureka-server
+  profiles:
+#    指定服务应该运行的默认profile。profile映射到某个环境
+    active: dev
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    config:
+      enabled: true
+      #     指定Spring Cloud Config服务器端的位置
+      uri: http://localhost:8071

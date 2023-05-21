@@ -17,14 +17,6 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <!--❹告诉Maven包含Spring Boot Web依赖项-->
-            <artifactId>
-                spring-boot-starter-web
-            </artifactId>
-        </dependency>
         <!--HATEOAS是Hypermedia as the Engine of Application State的缩写，意思是超媒体即应用状态引擎。
         Spring HATEOAS是一个小项目，它允许我们创建遵循HATEOAS原则的API，
         显示给定资源的相关链接。HATEOAS原则指出，API应该通过返回每个服务响应可能的后续步骤的信息来为客户端提供指导-->

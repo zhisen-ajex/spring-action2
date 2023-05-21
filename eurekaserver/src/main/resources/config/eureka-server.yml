@@ -1,0 +1,19 @@
+server:
+   port: 8070
+eureka:
+   instance:
+#     设置Eureka实例主机名
+      hostname: localhost    ⇽---
+   client:
+#     告诉Eureka服务器端不要向Eureka服务注册
+      registerWithEureka: false    ⇽---
+#     并且不在本地缓存注册信息
+      fetchRegistry: false
+      serviceUrl:
+#       提供Eureka服务URL(为任何客户端提供服务URL)
+         defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+   server:
+#     设置Eureka服务器端接收请求之前等待的初始时间
+#(它表示在开始接受请求之前等待的时间（以毫秒为单位）。当你本地测试服务时，应该使用这一行属性，因为Eureka不会马上通告任何通过它注册的服务。默认情况下，它会等待5 分钟，让所有的服务都有机会在通告它们之前通过它来注册。进行本地测试时使用这行属性，将有助于加快Eureka服务启动和显示通过它注册服务所需的时间)
+#每次服务注册需要30秒的时间才能显示在Eureka服务中，这是因为Eureka需要从服务接收3次连续心跳包ping，每次心跳包ping间隔10秒，然后才能使用这个服务。在部署和测试服务时，要牢记这一点。
+      waitTimeInMsWhenSyncEmpty: 5
