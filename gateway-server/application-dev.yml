@@ -20,7 +20,7 @@ spring:
           uri: lb://organization-service
 #          这个路径虽然由load()方法设置，但它也只是另一个选项
           predicates:
-            - Path=/organization/**
+            - Path=/organization2/**
 #          Spring Web过滤器的集合，用以修改请求，或在发送响应之前修改响应
           filters:
 #            通过将路径正则表达式作为参数和替换顺序，将请求路径从/organization/**重写为/**
