@@ -16,6 +16,7 @@
 package com.zs.license.clients;
 
 import com.zs.license.model.Organization;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,11 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 public class OrganizationRestTemplateClient {
+	// KeycloakRestTemplate是标准RestTemplate的增强式替代品，可处理访问令牌的传播
 	@Autowired
-	RestTemplate restTemplate;                 // for make http call to organization service
+	KeycloakRestTemplate restTemplate;
+/*	@Autowired
+	RestTemplate restTemplate;                 // for make http call to organization service*/
 /*
 	@Autowired
 	Tracer tracer;                             // for sending custom span to zipkin server
@@ -50,7 +54,7 @@ public class OrganizationRestTemplateClient {
         //在使用Load Balancer支持的RestTemplate时，使用Eureka服务ID来构建目标URL
         ResponseEntity<Organization> restExchange =
                 restTemplate.exchange(
-                        "http://organization-service/v1/organization/{organizationId}",
+                        "http://organization-service/v1/organizations/{organizationId}",
                         HttpMethod.GET, null,
                         Organization.class, organizationId);
 

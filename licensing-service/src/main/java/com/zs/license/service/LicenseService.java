@@ -7,6 +7,7 @@ import com.zs.license.clients.OrganizationRestTemplateClient;
 import com.zs.license.config.ServiceConfig;
 import com.zs.license.model.Organization;
 import com.zs.license.repository.LicenseRepository;
+import com.zs.license.utils.UserContextHolder;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.zs.license.model.License;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 @Service
@@ -126,13 +124,29 @@ public class LicenseService {
                 "license.delete.message", null, null),licenseId);
         return responseMessage;
     }
-//    @CircuitBreaker使用Resilience4j断路器对 getLicensesByOrganization()进行了包装
-    @CircuitBreaker(name = "licenseService")
+    // @CircuitBreaker使用Resilience4j断路器对 getLicensesByOrganization()进行了包装
+    //定义了buildFallbackLicenseList方法，如果调用服务失败，那么就会调用该方法
+    @CircuitBreaker(name = "licenseService", fallbackMethod= "buildFallbackLicenseList")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
         //randomlyRunLong();
+        logger.info("getLicensesByOrganization Correlation id: {}",
+                UserContextHolder.getContext().getCorrelationId());
         sleep();
         return licenseRepository.findByOrganizationId(organizationId);
     }
+
+    private List<License> buildFallbackLicenseList(String organizationId,Throwable t){
+        logger.info("getLicensesByOrganization buildFallbackLicenseList: {}",t.getMessage());
+        List<License> fallbackList = new ArrayList<>();
+        License license = new License();
+        license.setLicenseId("0000000-00-00000");
+        license.setOrganizationId(organizationId);
+        license.setProductName(
+                "Sorry no licensing information currently available");
+        fallbackList.add(license);
+        return fallbackList;
+    }
+
     // 有三分之一的概率数据库调用会持续很长时间
     private void randomlyRunLong() throws TimeoutException {
         Random rand = new Random();
