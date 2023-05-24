@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.annotation.security.RolesAllowed;
+
 /**
  * The controller class for defining available calls to the API endpoint of 
  * organization service.
@@ -52,6 +54,8 @@ public class OrganizationServiceController {
      *         
      * @return  The matched organization record.
      */
+    //指示只有拥有USER和ADMIN角色的用户才能执行此操作, "USER"
+    @RolesAllowed({ "ROLE_ADMIN","USER" })
     @RequestMapping(value="/{organizationId}", method = RequestMethod.GET)
     public Organization getOrganization(@PathVariable("organizationId") String orgId) {
         logger.debug("Query an organization by the organization ID {}", orgId);
