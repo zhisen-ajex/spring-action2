@@ -9,6 +9,9 @@ spring:
       enabled: true
       #     指定Spring Cloud Config服务器端的位置
       uri: http://localhost:8071
+
+
+
 resilience4j.circuitbreaker:
   instances:
 #    许可证服务实例配置（注解中提供的断路器名称）
@@ -36,3 +39,37 @@ resilience4j.circuitbreaker:
       ringBufferSizeInHalfOpenState: 4
       waitDurationInOpenState: 20s
       failureRateThreshold: 60
+
+####################配置舱壁模式#####################
+
+resilience4j.bulkhead:
+  instances:
+    bulkheadLicenseService:
+#      阻塞一个线程的最长时间（设置进入一个舱壁时阻塞一个线程的最长时间。默认值为0）
+      maxWaitDuration: 10ms
+#      最大并发调用数（设置这个舱壁允许的最大并发调用数。默认值为25）
+      maxConcurrentCalls: 20
+
+resilience4j.thread-pool-bulkhead:
+  instances:
+    bulkheadLicenseService:
+#      线程池中的最大线程数（默认值是Runtime.getRuntime().availableProcessors()）
+      maxThreadPoolSize: 1
+#      核心线程池大小(默认值是Runtime.getRuntime().availableProcessors())
+      coreThreadPoolSize: 1
+#      队列容量(默认值是100)
+      queueCapacity: 1
+#      空闲线程在终止前等待新任务的最长时间(当线程的数量大于核心线程的数量时，就会发生这种情况。默认值是20毫秒)
+      keepAliveDuration: 20ms
+
+
+resilience4j.retry:
+  instances:
+    retryLicenseService:
+#      重试的最大次数
+      maxRetryAttempts: 5
+#      两次重试之间的等待时间
+      waitDuration: 10000
+#      想要重试的异常列表
+      retry-exceptions:
+        - java.util.concurrent.TimeoutException

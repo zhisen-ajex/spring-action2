@@ -8,7 +8,9 @@ import com.zs.license.config.ServiceConfig;
 import com.zs.license.model.Organization;
 import com.zs.license.repository.LicenseRepository;
 import com.zs.license.utils.UserContextHolder;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,9 +126,13 @@ public class LicenseService {
                 "license.delete.message", null, null),licenseId);
         return responseMessage;
     }
-    // @CircuitBreaker使用Resilience4j断路器对 getLicensesByOrganization()进行了包装
+    //@CircuitBreaker使用Resilience4j断路器对 getLicensesByOrganization()进行了包装
     //定义了buildFallbackLicenseList方法，如果调用服务失败，那么就会调用该方法
-    @CircuitBreaker(name = "licenseService", fallbackMethod= "buildFallbackLicenseList")
+    //@CircuitBreaker(name = "licenseService", fallbackMethod= "buildFallbackLicenseList")
+    //设置重试模式的实例名和回退方法
+    @Retry(name = "retryLicenseService",fallbackMethod="buildFallbackLicenseList")
+    //为舱壁模式设置实例名称和后备方法 （@Bulkhead这个注解表示我们正在设置舱壁模式）
+    // @Bulkhead(name= "bulkheadLicenseService",type = Bulkhead.Type.THREADPOOL, fallbackMethod= "buildFallbackLicenseList")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
         //randomlyRunLong();
         logger.info("getLicensesByOrganization Correlation id: {}",
