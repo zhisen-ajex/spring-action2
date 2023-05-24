@@ -9,3 +9,30 @@ spring:
       enabled: true
       #     指定Spring Cloud Config服务器端的位置
       uri: http://localhost:8071
+resilience4j.circuitbreaker:
+  instances:
+#    许可证服务实例配置（注解中提供的断路器名称）
+    licenseService:
+#      指示是否在健康信息端点公开配置
+      registerHealthIndicator: true
+#      设置闭合状态中的环形缓冲区的大小,默认值为100(请求5次,这五次当中失败率高于failureRateThreshold阈值，则第6次就进入断开状态（在断开状态下断路器拒绝请求）)
+      ringBufferSizeInClosedState: 5
+#      设置半断开状态中的环形缓冲区的大小,默认值为10（请求3次，这3次当中失败率高于failureRateThreshold阈值则重新进入断开状态，如果小于或等于failureRateThreshold阈值则进入闭合状态）
+      ringBufferSizeInHalfOpenState: 3
+#      设置断开状态的等待时间,默认值60 000ms（进入断开状态100秒后，自动进入半段开状态）
+      waitDurationInOpenState: 100s
+#      设置失败率阈值百分比,默认值50
+      failureRateThreshold: 50
+#      设置应该记录为失败的异常,默认情况下所有异常都记录为失败
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+
+    organizationService:
+      registerHealthIndicator: true
+      ringBufferSizeInClosedState: 6
+      ringBufferSizeInHalfOpenState: 4
+      waitDurationInOpenState: 20s
+      failureRateThreshold: 60

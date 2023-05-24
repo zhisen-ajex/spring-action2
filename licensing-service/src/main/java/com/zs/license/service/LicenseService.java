@@ -7,6 +7,7 @@ import com.zs.license.clients.OrganizationRestTemplateClient;
 import com.zs.license.config.ServiceConfig;
 import com.zs.license.model.Organization;
 import com.zs.license.repository.LicenseRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ import org.springframework.stereotype.Service;
 
 import com.zs.license.model.License;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class LicenseService {
@@ -121,5 +125,28 @@ public class LicenseService {
         responseMessage = String.format(messages.getMessage(
                 "license.delete.message", null, null),licenseId);
         return responseMessage;
+    }
+//    @CircuitBreaker使用Resilience4j断路器对 getLicensesByOrganization()进行了包装
+    @CircuitBreaker(name = "licenseService")
+    public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+        //randomlyRunLong();
+        sleep();
+        return licenseRepository.findByOrganizationId(organizationId);
+    }
+    // 有三分之一的概率数据库调用会持续很长时间
+    private void randomlyRunLong() throws TimeoutException {
+        Random rand = new Random();
+        int randomNum = rand.nextInt(3) + 1;
+        if (randomNum==3) sleep();
+    }
+
+    private void sleep() throws TimeoutException {
+        try {
+            //睡眠5000毫秒（5秒），然后抛出一个TimeoutException
+            Thread.sleep(5000);
+            throw new java.util.concurrent.TimeoutException();
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+        }
     }
 }

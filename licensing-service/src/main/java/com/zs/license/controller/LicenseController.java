@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 /**
  *
@@ -64,6 +66,12 @@ public class LicenseController {
         return licenseService.getLicense(orgId, licenseId,locale);
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public List<License> getLicenses(@PathVariable("organizationId") String orgId) throws TimeoutException {
+        logger.debug("Query a multiple licenses by the organization ID {}", orgId);
+
+        return licenseService.getLicensesByOrganization(orgId);
+    }
 
     /**
      * Update a license by the license ID.
