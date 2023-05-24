@@ -13,6 +13,37 @@ spring:
       discovery.locator:
         enabled: true
         lowerCaseServiceId: true
+      routes:
+#          这个可选ID是一个任意的路由ID
+        - id: organization-service
+#          设置路由的目的地URI
+          uri: lb://organization-service
+#          这个路径虽然由load()方法设置，但它也只是另一个选项
+          predicates:
+            - Path=/organization/**
+#          Spring Web过滤器的集合，用以修改请求，或在发送响应之前修改响应
+          filters:
+#            通过将路径正则表达式作为参数和替换顺序，将请求路径从/organization/**重写为/**
+            - RewritePath=/organization/(?<path>.*), /$\{path}
+        #当访问http://localhost:8080/baidu，直接转发到http://www.baidu.com/
+#        - id: baidu_route
+#          uri: http://baidu.com:80/
+#          predicates:
+#            - Path=/baidu
+#        - id: api-user
+#          uri: lb://user-service
+#          order: 8001
+#          predicates:
+#            - Path=/user-service/**
+#          filters:
+#            - StripPrefix=1
+#        - id: api-auth1
+#          uri: lb://oauth-service
+#          order: 8003
+#          predicates:
+#            - Path=/oauth-service/oauth/token
+#          filters：
+#          - StripPrefix=0
 server:
   port: 8076
 
