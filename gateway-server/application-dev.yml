@@ -24,7 +24,7 @@ spring:
 #          Spring Web过滤器的集合，用以修改请求，或在发送响应之前修改响应
           filters:
 #            通过将路径正则表达式作为参数和替换顺序，将请求路径从/organization/**重写为/**
-            - RewritePath=/organization/(?<path>.*), /$\{path}
+            - RewritePath=/organization2/(?<path>.*), /$\{path}
         #当访问http://localhost:8080/baidu，直接转发到http://www.baidu.com/
 #        - id: baidu_route
 #          uri: http://baidu.com:80/
