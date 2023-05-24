@@ -73,3 +73,13 @@ resilience4j.retry:
 #      想要重试的异常列表
       retry-exceptions:
         - java.util.concurrent.TimeoutException
+#
+resilience4j.ratelimiter:
+  instances:
+    licenseService:
+#      定义线程等待获取许可的时间,默认值为5秒
+      timeoutDuration: 1000ms
+#      定义限流刷新周期,默认值是500纳秒(在每个周期之后，限流器将许可计数重置回limitForPeriod值)
+      limitRefreshPeriod: 5000
+#      定义在限流刷新周期期间可用的许可数(一个刷新周期期间可用的许可数量，其默认值是50)
+      limitForPeriod: 5

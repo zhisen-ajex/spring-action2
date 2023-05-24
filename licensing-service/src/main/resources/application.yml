@@ -6,7 +6,8 @@
  logging:
    level:
      org.hibernate.type.descriptor.sql.BasicBinder: trace
-
+     org.springframework: WARN
+     com.zs: DEBUG
  keycloak:
    #   领域名称
    realm: test
