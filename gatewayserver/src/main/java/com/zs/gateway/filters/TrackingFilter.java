@@ -43,8 +43,8 @@ public class TrackingFilter implements GlobalFilter {
                     correlationID);
         }
         filterUtils.setUserId(exchange,getUsername(requestHeaders));
-        filterUtils.setAuthToken(exchange,filterUtils.getAuthToken(requestHeaders)
-                .replace("Bearer ",""));
+   /*     filterUtils.setAuthToken(exchange,filterUtils.getAuthToken(requestHeaders)
+                .replace("Bearer ",""));*/
         return chain.filter(exchange);
     }
 
