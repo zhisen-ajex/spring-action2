@@ -8,6 +8,9 @@ eureka:
       defaultZone: http://localhost:8070/eureka/
 spring:
   cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
     gateway:
 #      使网关能够基于向服务发现注册的服务创建路由
       discovery.locator:
