@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProperty scope="context" name="application_name"
+                    source="spring.application.name"/>
+
+<!--    指示使用TcpSocketAppender与Logstash通信-->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+<!--        用于建立TCP通信的Logstash主机名和端口  -->
+        <destination>logstash:5000</destination>
+
+        <!--        将日志文件解析为Logstash格式-->
+        <!--        实现起来最容易、最快，而且在本例中，我们不需要向日志记录器添加额外的字段-->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <!--        可以添加新的模式或字段，禁用默认日志提供程序等-->
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc>
+                    <excludeMdcKeyName>X-B3-TraceId</excludeMdcKeyName>
+                    <excludeMdcKeyName>X-B3-SpanId</excludeMdcKeyName>
+                    <excludeMdcKeyName>X-B3-ParentSpanId</excludeMdcKeyName>
+                </mdc>
+                <context/>
+                <version/>
+                <logLevel/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        <omitEmptyFields>true</omitEmptyFields>
+                        {
+                        "application": {
+                        version: "1.0"
+                        },
+                        "trace": {
+                        "trace_id": "%mdc{traceId}",
+                        "span_id": "%mdc{spanId}",
+                        "parent_span_id": "%mdc{X-B3-ParentSpanId}",
+                        "exportable": "%mdc{spanExportable}"
+                        }
+                        }
+                    </pattern>
+                </pattern>
+                <threadName/>
+                <message/>
+                <logstashMarkers/>
+                <arguments/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="logstash"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.zs" level="DEBUG"/>
+</configuration>
