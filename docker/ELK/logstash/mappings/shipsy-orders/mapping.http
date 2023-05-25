@@ -1,0 +1,49 @@
+### Update Index Mapping
+PUT http://localhost:9200/aone.shipsy.orders.logs.00003
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "log": {
+        "properties": {
+          "message": {
+            "properties": {
+              "msg": {
+                "properties": {
+                  "type": {
+                    "type": "keyword"
+                  },
+                  "customerCode": {
+                    "type": "keyword"
+                  },
+                  "obj": {
+                    "type": "flattened"
+                  },
+                  "text": {
+                    "type": "keyword"
+                  },
+                  "waybill": {
+                    "type": "keyword"
+                  },
+                  "timestamp": {
+                    "type": "long"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "service": {
+        "type": "keyword"
+      },
+      "version": {
+        "type": "keyword"
+      },
+      "exception": {
+        "type": "flattened"
+      }
+    }
+  }
+}

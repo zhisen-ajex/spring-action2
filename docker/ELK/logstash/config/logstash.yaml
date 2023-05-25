@@ -1,0 +1,6 @@
+http.host: "0.0.0.0"
+xpack:
+  monitoring:
+    elasticsearch:
+      api_key: mONsAIgBP5c3Ae6Ywhue:UFhNsIE7SmOhReJhI_axUA
+      cloud_auth: mONsAIgBP5c3Ae6Ywhue:UFhNsIE7SmOhReJhI_axUA

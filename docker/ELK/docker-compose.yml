@@ -1,0 +1,67 @@
+version: "3.3"
+services:
+#  zookeeper:
+#    image: 'bitnami/zookeeper:latest'
+#    restart: unless-stopped
+#    ports:
+#      - '2181:2181'
+#    environment:
+#      - ALLOW_ANONYMOUS_LOGIN=yes
+#    networks:
+#      - zs-network
+#  kafka:
+#    image: 'bitnami/kafka:latest'
+#    ports:
+#      - '9092:9092'
+#      - '9093:9093'
+#    environment:
+#      - KAFKA_BROKER_ID=1
+#      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+#      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+#      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+#      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+#      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+#      - ALLOW_PLAINTEXT_LISTENER=yes
+#    depends_on:
+#      - zookeeper
+#    networks:
+#      - zs-network
+  elasticsearch:
+    image: elasticsearch:8.2.2
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+    volumes:
+      - zs-esdb:/usr/share/elasticsearch/data
+    ports:
+      - target: 9200
+        published: 9200
+    networks:
+      - zs-network
+  kibana:
+    image: kibana:8.2.2
+    ports:
+      - target: 5601
+        published: 5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - zs-network
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.7.1
+    depends_on:
+      - elasticsearch
+      - zookeeper
+      - kafka
+    environment:
+      - 'INPUT_INDEX=aone.shipsy.orders.logs.00003'
+    volumes:
+      - ./logstash/pipeline/:/usr/share/logstash/pipeline/
+    networks:
+      - zs-network
+
+volumes:
+  zs-esdb:
+networks:
+  zs-network:
