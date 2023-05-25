@@ -1,0 +1,21 @@
+keycloak_admin_user: admin
+keycloak_admin_password: 123
+logging:
+  level:
+    org.springframework: TRACE
+    com.zs: DEBUG
+
+spring:
+  application:
+    name: user-management
+  profiles:
+#    指定服务应该运行的默认profile。profile映射到某个环境
+    active: dev
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    config:
+      enabled: true
+      #     指定Spring Cloud Config服务器端的位置
+      uri: http://localhost:8071
