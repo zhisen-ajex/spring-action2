@@ -1,3 +1,8 @@
+logging:
+  level:
+    org.springframework: DEBUG
+    com.zs: DEBUG
+
 eureka:
   instance:
     preferIpAddress: true
