@@ -1,2 +1,29 @@
+keycloak:
+  #   领域名称
+  realm: test
+  #   Keycloak服务器端URL认证端点
+  auth-server-url: http://192.168.134.191:8080/auth
+  #   客户端ID
+  resource: demo-client
+  ssl-required: external
+  credentials:
+    #     客户端密钥
+    secret: 416d8d92-fd62-4613-a6c5-b688e58dbbf9
+  use-resource-role-mappings: true
+  bearer-only: true
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai
+    password: '{cipher}5b9dab13a384cdac7a08c3498272fe57425ed4ed634a2ead05f34bfafb907dbd'
+    driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8090
+
