@@ -4,6 +4,7 @@ import com.zs.user.management.dto.RolDto;
 import com.zs.user.management.service.IKeycloakRolService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RoleResource;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,14 @@ public class KeycloakRolServiceImpl implements IKeycloakRolService {
         dto.setDescription(model.getDescription());
         keycloak.realm(realm).roles().create(dto);
         log.info("Rol Created: " + model.getName());
+    }
+
+    @Override
+    public void updateRol(RolDto model) {
+        RoleResource resource = keycloak.realm(realm).roles().get(model.getName());
+        RoleRepresentation roleRepresentation = resource.toRepresentation();
+        roleRepresentation.setDescription(model.getDescription());
+        resource.update(roleRepresentation);
     }
 
     public RoleRepresentation findRolByName(String rolAdi) {

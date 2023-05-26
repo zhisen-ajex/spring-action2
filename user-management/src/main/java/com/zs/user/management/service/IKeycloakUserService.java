@@ -14,7 +14,8 @@ public interface IKeycloakUserService {
     public UserRepresentation findByUserId(String id);
 
     public void createUser(UserDto dto);
-
+    void updateUser(UserDto dto);
+    void resetPassword(UserDto dto);
     public Response deleteUser(String userId);
 
     public void userAddGroup(String userId, String groupId);

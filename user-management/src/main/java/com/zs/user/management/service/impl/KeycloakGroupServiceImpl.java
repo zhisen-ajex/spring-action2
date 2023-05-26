@@ -4,6 +4,7 @@ import com.zs.user.management.dto.GroupDto;
 import com.zs.user.management.service.IKeycloakGroupService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.GroupResource;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -31,7 +32,13 @@ public class KeycloakGroupServiceImpl implements IKeycloakGroupService {
         keycloak.realm(realm).groups().add(dto);
         log.info("Group Created: " + model.getName());
     }
-
+    @Override
+    public void updateGroup(GroupDto model){
+        GroupResource groupResource = keycloak.realm(realm).groups().group(model.getId());
+        GroupRepresentation dto = groupResource.toRepresentation();
+        dto.setName(model.getName());
+        groupResource.update(dto);
+    }
     @Override
     public GroupRepresentation findGroupByName(String id) {
         log.info("FindGroupById");

@@ -35,7 +35,16 @@ public class KeycloakUserController {
         service.createUser(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
+    @PutMapping("/keycloaks/users")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto dto) {
+        service.updateUser(dto);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PutMapping("/keycloaks/users/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestBody UserDto dto) {
+        service.resetPassword(dto);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     @DeleteMapping("/keycloaks/users/{userId}")
     public ResponseEntity<Response> deleteUser(@PathVariable("userId") String userId) {
         return new ResponseEntity<>(service.deleteUser(userId), HttpStatus.OK);

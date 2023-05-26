@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface IKeycloakGroupService {
     public void createGroup(GroupDto model) throws Exception;
+    void updateGroup(GroupDto model);
 
     public GroupRepresentation findGroupByName(String id);
 

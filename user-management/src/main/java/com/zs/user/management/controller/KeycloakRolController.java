@@ -24,7 +24,11 @@ public class KeycloakRolController {
         service.createRol(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
+    @PutMapping("/keycloaks/roles")
+    public ResponseEntity<?> updateRol(@RequestBody RolDto dto) throws Exception {
+        service.updateRol(dto);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     @GetMapping("/keycloaks/roles")
     public ResponseEntity<List<RoleRepresentation>> findAllRol() {
         return new ResponseEntity<>(service.findAllRole(), HttpStatus.OK);

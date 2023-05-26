@@ -25,7 +25,11 @@ public class KeycloakGroupController {
         service.createGroup(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
+    @PutMapping("/keycloaks/groups")
+    public ResponseEntity<?> update(@RequestBody GroupDto dto) throws Exception {
+        service.updateGroup(dto);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     @GetMapping("/keycloaks/groups")
     public ResponseEntity<List<GroupRepresentation>> findAllGroup() {
         return new ResponseEntity<>(service.findAllGroup(), HttpStatus.OK);

@@ -4,6 +4,7 @@ import com.zs.user.management.dto.UserDto;
 import com.zs.user.management.service.IKeycloakUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -43,9 +44,20 @@ public class KeycloakUserServiceImpl implements IKeycloakUserService {
         keycloak.realm(realm).users().create(user);
     }
     public void updateUser(UserDto dto) {
-        UserRepresentation user = prepareUser(dto.getUsername(), preparePassword(dto.getPassword()));
-        log.info("User Created: " + user.getUsername());
-        //keycloak.realm(realm).userStorage().create(user);
+        UserResource userResource = keycloak.realm(realm).users().get(dto.getId());
+        UserRepresentation user = userResource.toRepresentation();
+        user.setEmail("test@qq.com");
+        userResource.update(user);
+    }
+    public void resetPassword(UserDto dto) {
+        UserResource userResource = keycloak.realm(realm).users().get(dto.getId());
+        UserRepresentation user = userResource.toRepresentation();
+        user.setEmail("test@qq.com");
+        CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+        credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+        credentialRepresentation.setTemporary(false);
+        credentialRepresentation.setValue(dto.getPassword());
+        userResource.resetPassword(credentialRepresentation);
     }
     public Response deleteUser(String userId) {
         log.info("User Deleted: " + userId);
