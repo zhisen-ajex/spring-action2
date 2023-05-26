@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IKeycloakRealm {
 
-    public RealmResource realm(@PathParam("realm") String realm) ;
+    public RealmRepresentation realm(String realm) ;
 
 
     public ResponseEntity<List<RealmRepresentation>> findAll();

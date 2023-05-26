@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -77,6 +78,8 @@ public class KeycloakUserServiceImpl implements IKeycloakUserService {
     public void userAddRol(String userId, String rolAdi) {
         log.info("User UserAddRol: " + rolAdi);
         RoleRepresentation rol = keycloak.realm(realm).roles().get(rolAdi).toRepresentation();
+        List<RoleRepresentation> representationList = new ArrayList<>(1);
+        representationList.add(rol);
         keycloak.realm(realm).users().get(userId).roles().realmLevel().add(Arrays.asList(rol));
     }
 

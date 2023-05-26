@@ -1,11 +1,13 @@
 package com.zs.user.management.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
 public class KeycloakClientConfig {
@@ -25,7 +27,10 @@ public class KeycloakClientConfig {
 
     @Value("${keycloak_admin_password}")
     private String password;
-
+    @Bean
+    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
+        return new Jackson2ObjectMapperBuilder().serializationInclusion(JsonInclude.Include.NON_NULL);
+    }
 
     @Bean
     public Keycloak keycloak() {

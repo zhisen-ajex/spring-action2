@@ -21,8 +21,8 @@ public class KeycloakRealmController {
     private IKeycloakRealm keycloakRealm;
     @Autowired
     private Keycloak keycloak;
-    @GetMapping("/keycloaks/{realm}")
-    public RealmResource realm(@PathParam("realm") String realm) {
+    @GetMapping("/keycloaks/realms/{realm}")
+    public RealmRepresentation realm(@PathVariable String realm) {
         return keycloakRealm.realm(realm);
     }
 
@@ -32,7 +32,7 @@ public class KeycloakRealmController {
         return keycloakRealm.findAll();
     }
     @PostMapping("/keycloaks/realms")
-    public ResponseEntity<?> postRealm(RealmDto dto) {
+    public ResponseEntity<?> postRealm(@RequestBody RealmDto dto) {
 //        final RealmRepresentation newRealm = new RealmRepresentation();
 //        newRealm.setRealm(dto.getName());
 //        newRealm.setEnabled(true);

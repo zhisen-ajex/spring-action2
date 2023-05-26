@@ -17,8 +17,8 @@ import java.util.List;
 public class KeycloakRealmImpl implements IKeycloakRealm {
     @Autowired
     private Keycloak keycloak;
-    public RealmResource realm(@PathParam("realm") String realm) {
-        return keycloak.realms().realm(realm);
+    public RealmRepresentation realm( String realm) {
+        return keycloak.realms().realm(realm).toRepresentation();
     }
 
 
