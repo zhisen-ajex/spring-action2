@@ -1,7 +1,7 @@
 package com.zs.user.management.service.impl;
 
 import com.zs.user.management.dto.UserDto;
-import com.zs.user.management.service.async.IKeycloakUserService;
+import com.zs.user.management.service.IKeycloakUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -27,8 +27,6 @@ public class KeycloakUserServiceImpl implements IKeycloakUserService {
         log.info("User FindAll");
         return keycloak.realm(realm).users().list();
     }
-
-    //TODO
     public List<UserRepresentation> findByUsername(String username) {
         log.info("User findByUsername: " + username);
         return keycloak.realm(realm).users().search(username);
@@ -44,7 +42,11 @@ public class KeycloakUserServiceImpl implements IKeycloakUserService {
         log.info("User Created: " + user.getUsername());
         keycloak.realm(realm).users().create(user);
     }
-
+    public void updateUser(UserDto dto) {
+        UserRepresentation user = prepareUser(dto.getUsername(), preparePassword(dto.getPassword()));
+        log.info("User Created: " + user.getUsername());
+        //keycloak.realm(realm).userStorage().create(user);
+    }
     public Response deleteUser(String userId) {
         log.info("User Deleted: " + userId);
         return keycloak.realm(realm).users().delete(userId);

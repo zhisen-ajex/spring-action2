@@ -1,4 +1,4 @@
-package com.zs.user.management.service.async;
+package com.zs.user.management.service;
 
 import com.zs.user.management.dto.RolDto;
 import org.keycloak.representations.idm.RoleRepresentation;

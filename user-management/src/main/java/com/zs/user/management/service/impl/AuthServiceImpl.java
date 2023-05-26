@@ -1,7 +1,7 @@
 package com.zs.user.management.service.impl;
 
 import com.zs.user.management.dto.UserDto;
-import com.zs.user.management.service.async.IAuthService;
+import com.zs.user.management.service.IAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;

@@ -1,7 +1,7 @@
 package com.zs.user.management.service.impl;
 
 import com.zs.user.management.dto.GroupDto;
-import com.zs.user.management.service.async.IKeycloakGroupService;
+import com.zs.user.management.service.IKeycloakGroupService;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.GroupRepresentation;
