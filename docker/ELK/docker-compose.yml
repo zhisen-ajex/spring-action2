@@ -50,6 +50,8 @@ services:
       - zs-network
   logstash:
     image: zhisen2/zs-logstash:8.7.1
+    ports:
+      - "5000:5000"
     depends_on:
       - elasticsearch
 #       - zookeeper

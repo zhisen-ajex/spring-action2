@@ -7,7 +7,7 @@
 <!--    指示使用TcpSocketAppender与Logstash通信-->
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
 <!--        用于建立TCP通信的Logstash主机名和端口  -->
-        <destination>logstash:5000</destination>
+        <destination>localhost:5000</destination>
 
         <!--        将日志文件解析为Logstash格式-->
         <!--        实现起来最容易、最快，而且在本例中，我们不需要向日志记录器添加额外的字段-->
@@ -29,7 +29,7 @@
                         <omitEmptyFields>true</omitEmptyFields>
                         {
                         "application": {
-                        version: "1.0"
+                        "version": "1.0"
                         },
                         "trace": {
                         "trace_id": "%mdc{traceId}",

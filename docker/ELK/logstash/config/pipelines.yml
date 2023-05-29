@@ -6,15 +6,15 @@
 #
 # Example of two pipelines:
 #
-- pipeline.id: shipsy-orders-stream
-  pipeline.workers: 1
-  path.config: "/usr/share/logstash/pipeline/shipsy-orders-stream.conf"
-- pipeline.id: aone-logs
+#- pipeline.id: shipsy-orders-stream
+#  pipeline.workers: 1
+#  path.config: "/usr/share/logstash/pipeline/shipsy-orders-stream.conf"
+- pipeline.id: zs-logs
   pipeline.workers: 3
-  path.config: "/usr/share/logstash/pipeline/aone-logs.conf"
-- pipeline.id: another_test
-  pipeline.workers: 1
-  path.config: "/usr/share/logstash/pipelines/zid-pipeline.conf"
+  path.config: "/usr/share/logstash/pipeline/pipeline.conf"
+#- pipeline.id: another_test
+#  pipeline.workers: 1
+#  path.config: "/usr/share/logstash/pipelines/zid-pipeline.conf"
 #   queue.type: persisted
 #
 # Available options:
