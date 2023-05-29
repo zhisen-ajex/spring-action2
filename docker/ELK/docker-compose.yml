@@ -49,11 +49,11 @@ services:
     networks:
       - zs-network
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.7.1
+    image: zhisen2/zs-logstash:8.7.1
     depends_on:
       - elasticsearch
-      - zookeeper
-      - kafka
+#       - zookeeper
+#      - kafka
     environment:
       - 'INPUT_INDEX=aone.shipsy.orders.logs.00003'
     volumes:
