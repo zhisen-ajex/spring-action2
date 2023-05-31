@@ -1,0 +1,97 @@
+
+##########在集群中创建命名空间###############
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zstest
+
+---
+apiVersion: apps/v1 #API版本
+# kind属性用来表明此资源对象（pod,service,deployment,replicaset）的类型
+# Deployment资源对象与Replicaset资源密切相关,k8s内部会根据Deployment对象自动创建相关联的RepliCaset对象(命名前缀清晰的表示创建了哪些Pod)
+kind: Deployment #副本控制器RC (1无状态服务2通过模板创建多个pod实例3自动控制,当pod故障时重启)
+metadata:
+  labels: #标签
+    app: config-server
+  name: config-server #对象名称,全局唯一
+  namespace: zstest #集群命名空间
+#spec部分是Deployment的相关属性定义
+spec:
+  replicas: 1 #预期的副本数量
+  # 是Deployment的POD选择器,符合条件的Pod实例受Deployment的管理(比如副本数控制)
+  selector:
+    matchLabels:
+      app: config-server
+    matchExpressions:
+      - {key: app,operator: In,values: [{config-server]}
+  #定义pod模板,当副本数少于预期时deployment控制器会根据这个定义的模板生成一个新的pod实例
+  template:
+    metadata:
+    #指定pod的标签,必须匹配之前的spec.selector标签
+      labels:
+        app: config-server
+    spec:
+      containers:
+      - image: zhisen2/zs-config-server:1.0
+        name: config-server
+        ports:
+        - containerPort: 8071  #容器运用监听的端口
+          name: config-server-port
+        env:  #注入容器内的环境变量
+#        - name: PWD
+#          value: 123456
+
+#####################创建一个与Deployment关联的Service############################
+#################Pod无法预先知道它对应的Service地址(clusterIP+PORT),因此需要一个服务发现机制来找到这个Service
+###############k8s巧妙的使用了linux环境变量来解决这个问题，因为service的名称唯一，所以pod容器可以从环境变量中获取对应的service地址
+######################从而发起TCP/IP连接请求
+
+# 并不是每个pod和Pod中的运行的容器都能映射到一个service上，只有提供服务的那组pod才会被映射为一个service
+#######服务发现(任何分布式系统都会涉及服务发现这个基础问题)#########
+#1大部分分布式系统都是通过提供特点的API来实现服务发现功能,缺点是对平台入侵性强,增加了开发测试难度
+#2K8s采用Service的Name与ClusterIp地址(虚拟ip地址,只能在集群这个封闭的空间访问)做一个DNS域名映射即可
+
+apiVersion: v1
+kind: Service  #表面是kubernetes Service
+metadata:
+  name: config-server  #Service的全局唯一名称（服务名）
+  namespace: zstest
+spec:
+  #clusterIP: None #默认不需要写,集群会自动分配一个虚拟IP,如果为None时,则表示没有ClusterIP,这种叫做Headless Service。因为没有ip，客户端访问时,解析DNS域名直接返回的是POD的端点，相当于直接与pod建立tcp连接进行通讯，效率高（没有通过clusterip虚拟地址转发）
+  selector:
+    app: config-server #Service对应的Pod标签
+  ports: #service可以定义多端口
+    - port: 8071 #Service提供服务的端口号
+      targetPort: config-server-port #默认与上一行的port端口相同,用来确定提供该服务的pod容器所暴露的端口
+      nodePort: 18071
+      name: config-server-port
+  #    type.NodePort和 nodePort表明此service开启了NodePort格式的外网访问模式.在K8s集群外,客户端可以通过18071端口访问对应的虚端口8071的服务
+  type: NodePort
+
+# ingress,请求虚拟域名config.zs.com的流量会被路由到config-server服务
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+#  kubernetes.io/ingress.global-static-ip-name: saas-bsp-gw-service-service-ip
+#  networking.gke.io/managed-certificates: "saas-bsp-gw-service"
+#  kubernetes.io/ingress.class: "gce"
+#  kubernetes.io/ingress.allow-http: "true"
+  name: config-server-ingress
+  namespace: zstest
+spec:
+  defaultBackend:
+    service:
+      name: config-server
+      port:
+        number: 8071
+  rules:
+  - host: config.zs.com
+    http:
+      paths:
+      - backend:
+          serviceName: config-server
+          servicePort: 8071
+        path: /*
+        pathType: ImplementationSpecific
