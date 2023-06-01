@@ -12,6 +12,10 @@ spring:
       enabled: true
       #     指定Spring Cloud Config服务器端的位置
       uri: http://localhost:8071
+    kubernetes:
+      discovery:
+        enabled: true
+        namespaces: ajex-aone
 
 
 

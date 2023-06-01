@@ -32,6 +32,7 @@ spec:
       labels:
         app: config-server
     spec:
+      serviceAccountName: sa-ajex-aone
       containers:
       - image: zhisen2/zs-config-server:1.0
         name: config-server
