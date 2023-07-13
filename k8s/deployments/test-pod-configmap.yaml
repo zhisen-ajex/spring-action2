@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod-configmap
+spec:
+  containers:
+  - name: test-alpine
+    image: alpine
+    command: ["/bin/sh","-c","env; sleep 600"]
+    envFrom:
+    #使用方式1,将test-config配置中的所有定义的key=value自动生成环境变量
+    - configMapRef:
+        name: test-config
+    env:
+#    - name: KEY-01 #此环境变量的值来自test-config配置中key等于user对应的值
+#    #使用方式2
+#      valueFrom:
+#        configMapKeyRef:
+#          name: test-config
+#          key: user

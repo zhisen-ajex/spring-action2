@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  labels:
+    app: logstash
+  namespace: aone-stage
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: logstash
+      labels:
+        app: logstash
+    spec:
+      containers:
+        - name: logstash
+          image: asia-south2-docker.pkg.dev/middleware-test-339406/images/ajex/ajex-aone-logstash:1.2.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: 35.200.255.103:9092
+            - name: ZID_OUTPUT_INDEX
+              value: stage.zid.logs.000007
+            - name: SHIPSY_ORDERS_OUTPUT_INDEX
+              value: aone.shipsy.orders.logs.00002
+            - name: AONE_LOGS_INDEX
+              value: aone.logs.00001
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: logstash
