@@ -35,7 +35,6 @@ spring:
             - RewritePath=/organization2/(?<path>.*), /$\{path}
 #           网关不会传播到下游服务的敏感首部的黑名单。在RemoveRequestHeader列表中没有Authorization值就意味着网关将允许它通过。如果没有设置这个配置属性，网关将自动阻止3个值（Cookie、Set-Cookie和Authorization）被传播
             - RemoveRequestHeader= Cookie,Set-Cookie
-            # - Log= 1
         #当访问http://localhost:8080/baidu，直接转发到http://www.baidu.com/
 #        - id: baidu_route
 #          uri: http://baidu.com:80/
