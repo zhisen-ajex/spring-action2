@@ -8,8 +8,8 @@ spring:
     show-sql: true
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai
-    password: '{cipher}5b9dab13a384cdac7a08c3498272fe57425ed4ed634a2ead05f34bfafb907dbd'
+    url: jdbc:mysql://192.168.134.191:3306/test?serverTimezone=Asia/Shanghai
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 example:
   property: I AM DEV GIT
