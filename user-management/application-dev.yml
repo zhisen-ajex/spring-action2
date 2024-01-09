@@ -22,7 +22,8 @@ spring:
   datasource:
     username: root
     url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai
-    password: '{cipher}5b9dab13a384cdac7a08c3498272fe57425ed4ed634a2ead05f34bfafb907dbd'
+    # password: '{cipher}5b9dab13a384cdac7a08c3498272fe57425ed4ed634a2ead05f34bfafb907dbd'
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8090
